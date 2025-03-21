@@ -1,0 +1,43 @@
+import xml.etree.ElementTree as ET
+
+# Load the XML file
+file_path = r"C:\Users\varad\Downloads\New folder\Coding_data (1)\Coding_data\customer14235_loan14235_crif_report.html.xml"
+tree = ET.parse(file_path)
+root = tree.getroot()
+
+# Extract Report Header Information
+header = root.find(".//HEADER")
+if header is not None:
+    date_of_request = header.find("DATE-OF-REQUEST").text
+    prepared_for = header.find("PREPARED-FOR").text
+    report_id = header.find("REPORT-ID").text
+    print(f"Report ID: {report_id}")
+    print(f"Prepared For: {prepared_for}")
+    print(f"Date of Request: {date_of_request}")
+
+# Extract Credit Score
+score = root.find(".//SCORES/SCORE")
+if score is not None:
+    score_value = score.find("SCORE-VALUE").text
+    score_type = score.find("SCORE-TYPE").text
+    score_comments = score.find("SCORE-COMMENTS").text
+    print(f"\nCredit Score: {score_value} ({score_type})")
+    print(f"Score Comments: {score_comments}")
+
+# Extract Inquiry History
+print("\nInquiry History:")
+for history in root.findall(".//INQUIRY-HISTORY/HISTORY"):
+    inquiry_date = history.find("INQUIRY-DATE").text
+    purpose = history.find("PURPOSE").text
+    amount = history.find("AMOUNT").text
+    print(f"- Date: {inquiry_date}, Purpose: {purpose}, Amount: {amount}")
+
+# Extract Loan Details
+print("\nLoan Details:")
+for response in root.findall(".//RESPONSE/LOAN-DETAILS"):
+    acct_number = response.find("ACCT-NUMBER").text
+    acct_type = response.find("ACCT-TYPE").text
+    status = response.find("ACCOUNT-STATUS").text
+    disbursed_amt = response.find("DISBURSED-AMT").text
+    current_bal = response.find("CURRENT-BAL").text
+    print(f"- Account: {acct_number}, Type: {acct_type}, Status: {status}, Disbursed: {disbursed_amt}, Balance: {current_bal}")
