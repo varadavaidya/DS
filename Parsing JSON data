@@ -1,0 +1,24 @@
+import requests
+
+# Define the API endpoint
+url = r"https://microsoftedge.github.io/Demos/json-dummy-data/64KB.json"  # Example API
+
+# Send GET request
+response = requests.get(url)
+
+# Check if the request was successful (status code 200)
+if response.status_code == 200:
+    data = response.json()  # Convert response to JSON format
+    print(data)  # Print full JSON response
+
+data = response.json()
+for x in data:
+    print("Name",x['name'])
+    print("language",x['language'])
+    print('id',x['id'])
+    print('bio',x['bio'])
+    print('version',x['version'])
+    print('-----')
+
+else:
+    print(f"Failed to fetch data. HTTP Status Code: {response.status_code}")
